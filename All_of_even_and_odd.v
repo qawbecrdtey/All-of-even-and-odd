@@ -1,5 +1,8 @@
 Axiom double_negation : forall P, P = ~~P.
 
+Lemma contrapositive : forall P Q : Prop, (P -> Q) -> (~Q -> ~P).
+Proof. intuition. Qed.
+
 Lemma plus_n_0 : forall n, n + 0 = n.
 Proof.
   intros n.
@@ -133,9 +136,6 @@ Proof.
     + rewrite Hl. reflexivity.
     + rewrite Hr. apply mult_n_0.
 Qed.
-
-Lemma contrapositive : forall P Q : Prop, (P -> Q) -> (~Q -> ~P).
-Proof. intuition. Qed.
 
 Inductive even : nat->Prop :=
   | ev_0 : even 0
@@ -607,4 +607,83 @@ Proof.
   - intros [Hl | Hr].
     + apply even_n__even_nm. apply Hl.
     + apply even_m__even_nm. apply Hr.
+Qed.
+
+Lemma odd_n__odd_m__odd_nm : forall n m, odd n /\ odd m -> odd (n * m).
+Proof.
+  intros n m [Hl Hr].
+  induction Hl.
+  - rewrite mult_1_n. apply Hr.
+  - simpl.
+    apply odd_n__even_m__odd_plus_n_m.
+    split. apply Hr.
+    apply odd_n__odd_m__even_plus_n_m.
+    split. apply Hr. apply IHHl.
+Qed.
+
+Lemma odd_nm_iff_odd_n__odd_m : forall n m, odd (n * m) <-> odd n /\ odd m.
+Proof.
+  intros n m.
+  split.
+  - intros H.
+    induction n as [|n' IHn].
+    + inversion H.
+    + simpl in H.
+      apply odd_plus_n_m_iff_even_n__odd_m_or_odd_n__even_m in H.
+      destruct H as [[Hll Hlr] | [Hrl Hrr]].
+      * apply IHn in Hlr.
+        destruct Hlr as [Hlrl Hlrr].
+        apply even_n__not_odd_n in Hll.
+        apply Hll in Hlrr.
+        destruct Hlrr.
+      * apply even_nm_iff_even_n_or_even_m in Hrr.
+        destruct Hrr as [Hrrl | Hrrr].
+          split. apply even_n__odd_Sn. apply Hrrl. apply Hrl.
+          apply odd_n__not_even_n in Hrl. apply Hrl in Hrrr. destruct Hrrr.
+  - apply odd_n__odd_m__odd_nm.
+Qed.
+
+Fixpoint power(n k : nat) : nat :=
+  match k with
+    | 0     => 1
+    | S k'  => n * power n k'
+  end
+.
+
+Lemma power_n_1 : forall n, power n 1 = n.
+Proof. apply mult_n_1. Qed.
+
+Lemma even_power_iff_even : forall n k, even (power n (S k)) <-> even n.
+Proof.
+  intros n k.
+  split.
+  - induction k as [|k' IHk].
+    + rewrite power_n_1.
+      intros H. apply H.
+    + intros H. simpl in H.
+      simpl in IHk.
+      apply even_nm_iff_even_n_or_even_m in H.
+      destruct H as [Hl | Hr].
+      * apply Hl.
+      * apply IHk in Hr. apply Hr.
+  - intros H. simpl.
+    apply even_n__even_nm. apply H.
+Qed.
+
+Lemma odd_power_iff_odd : forall n k, odd(power n (S k)) <-> odd n.
+Proof.
+  intros n k.
+  split.
+  - induction k as [|k' IHk].
+    + simpl. rewrite mult_n_1.
+      intros H. apply H.
+    + intros H. simpl in H.
+      apply odd_nm_iff_odd_n__odd_m in H.
+      destruct H as [Hl Hr].
+      apply Hl.
+  - intros H. simpl.
+    induction k as [|k' IHk].
+    + rewrite mult_n_1. apply H.
+    + apply odd_nm_iff_odd_n__odd_m.
+      split. apply H. apply IHk.
 Qed.
