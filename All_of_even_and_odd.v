@@ -240,7 +240,7 @@ Proof.
   apply H.
 Qed.
 
-Lemma odd_Sn__not_even_n : forall n, odd (S n) -> ~odd n.
+Lemma odd_Sn__not_odd_n : forall n, odd (S n) -> ~odd n.
 Proof.
   intros n H.
   apply odd_Sn__even_n in H.
