@@ -687,3 +687,35 @@ Proof.
     + apply odd_nm_iff_odd_n__odd_m.
       split. apply H. apply IHk.
 Qed.
+
+Lemma even_n_iff_plus_k_k : forall n, (even n <-> (exists k, n = k + k)).
+Proof.
+  intros n.
+  split.
+  - intros H.
+    induction H.
+    + exists 0. reflexivity.
+    + destruct IHeven as [k IH].
+      exists (S k).
+      rewrite plus_n_Sm.
+      simpl. rewrite IH. reflexivity.
+  - intros [k H].
+    rewrite H. apply even_plus_n_n.
+Qed.
+
+Lemma odd_n_iff_Splus_k_k : forall n, (odd n <-> (exists k, n = S (k + k))).
+Proof.
+  intros n.
+  split.
+  - intros H.
+    induction H.
+    + exists 0. reflexivity.
+    + destruct IHodd as [k IH].
+      exists (S k).
+      rewrite plus_n_Sm.
+      simpl. rewrite IH. reflexivity.
+  - intros [k H].
+    rewrite H.
+    apply even_n__odd_Sn.
+    apply even_plus_n_n.
+Qed.
