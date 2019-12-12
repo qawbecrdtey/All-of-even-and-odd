@@ -1,6 +1,6 @@
-# All about even and odd
+# All of even and odd
 
-The `All_about_even_and_odd.v` file contains many theorems about evens and odds.
+The `All_of_even_and_odd.v` file contains many theorems about evens and odds.
 
 Feel free to suggest lemmas that should be added!
 
