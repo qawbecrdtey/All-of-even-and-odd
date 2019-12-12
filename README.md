@@ -190,6 +190,14 @@ Feel free to suggest lemmas that should be added!
 ### odd_power_iff_odd
 `odd (power n (S k)) <-> odd n`
 
+### even_n_iff_plus_k_k
+`even n <-> (exists k, n = k + k)`
+
+### odd_n_iff_Splus_k_k
+`odd n <-> (exists k, n = S (k + k))`
+
+## LICENSE
+
 Copyright 2019 qawbecrtey
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
