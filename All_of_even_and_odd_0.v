@@ -326,7 +326,26 @@ Qed.
 
 Lemma not_odd_n__odd_Sn : forall n, ~odd n -> odd (S n).
 Proof.
-  intros n H.
-  apply even_n__odd_Sn.
+  intros n.
+  induction n as [|n' IHn].
+  - exists 0. reflexivity.
+  - intros H. apply odd_n__odd_SSn.
+    apply contrapositive in IHn.
+    rewrite <- double_negation in IHn.
+    apply IHn.
+    apply H.
+Qed.
 
+Lemma not_even_n__even_Sn : forall n, ~even n -> even (S n).
+Proof.
+  intros n H.
+  induction n as [|n' IHn].
+  - assert(H' : even 0). exists 0. reflexivity.
+    apply H in H'.
+    destruct H'.
+  - apply even_n__even_SSn.
+    apply contrapositive in IHn.
+    rewrite <- double_negation in IHn.
+    apply IHn.
+    apply H.
 Qed.
