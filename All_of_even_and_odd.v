@@ -160,6 +160,20 @@ Proof.
   apply H.
 Qed.
 
+Lemma even_SSn__even_n : forall n, even (S (S n)) -> even n.
+Proof.
+  intros n H.
+  inversion H.
+  apply H1.
+Qed.
+
+Lemma odd_SSn__odd_n : forall n, odd (S (S n)) -> odd n.
+Proof.
+  intros n H.
+  inversion H.
+  apply H1.
+Qed.
+
 Lemma even_n__not_odd_n : forall n, even n -> ~odd n.
 Proof.
   intros n H.

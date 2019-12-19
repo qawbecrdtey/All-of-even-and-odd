@@ -57,6 +57,12 @@ Feel free to suggest lemmas that should be added!
 ### odd_n__odd_SSn
 `odd n -> odd (S (S n))`
 
+### even_SSn__even_n
+`even (S (S n)) -> even n`
+
+### odd_SSn__odd_n
+`odd (S (S n)) -> odd n`
+
 ### even_n__not_odd_n
 `even n -> ~odd n`
 
