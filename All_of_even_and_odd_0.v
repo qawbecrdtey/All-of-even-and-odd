@@ -349,3 +349,52 @@ Proof.
     apply IHn.
     apply H.
 Qed.
+
+Lemma not_odd_n__even_n : forall n, ~odd n -> even n.
+Proof.
+  intros n H.
+  apply not_odd_n__odd_Sn in H.
+  apply odd_Sn__even_n.
+  apply H.
+Qed.
+
+Lemma not_even_n__odd_n : forall n, ~even n -> odd n.
+Proof.
+  intros n H.
+  apply not_even_n__even_Sn in H.
+  apply even_Sn__odd_n.
+  apply H.
+Qed.
+
+Lemma not_odd_Sn__odd_n : forall n, ~odd (S n) -> odd n.
+Proof.
+  intros n H.
+  apply not_odd_n__odd_Sn in H.
+  apply odd_SSn__odd_n.
+  apply H.
+Qed.
+
+Lemma not_even_Sn__even_n : forall n, ~even (S n) -> even n.
+Proof.
+  intros n H.
+  apply not_even_n__even_Sn in H.
+  apply even_SSn__even_n.
+  apply H.
+Qed.
+
+Lemma nat_odd_or_even : forall n, even n \/ odd n.
+Proof.
+  intros n.
+  induction n as [|n' [Hl | Hr]].
+  - left. exists 0. reflexivity.
+  - right. apply even_n__odd_Sn. apply Hl.
+  - left. apply odd_n__even_Sn. apply Hr.
+Qed.
+
+Lemma odd_n__even_n__false : forall n, odd n /\ even n -> False.
+Proof.
+  intros n [Hl Hr].
+  apply even_n__not_odd_n in Hr.
+  apply Hr in Hl.
+  apply Hl.
+Qed.
