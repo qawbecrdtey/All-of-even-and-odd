@@ -398,3 +398,25 @@ Proof.
   apply Hr in Hl.
   apply Hl.
 Qed.
+
+Lemma even_n__even_m__even_plus_n_m : forall n m, even n /\ even m -> even (n + m).
+Proof.
+  intros n m [[l Hl] [r Hr]].
+  rewrite Hl, Hr.
+  rewrite <- plus_associative.
+  rewrite (plus_commutative (l + l) r).
+  rewrite <- plus_associative.
+  rewrite (plus_commutative r l).
+  exists (l + r).
+  rewrite <- plus_associative.
+  reflexivity.
+Qed.
+
+Lemma even_plus_n_m__even_n__even_m : forall n m, even (n + m) /\ even n -> even m.
+Proof.
+  intros n m [[l Hl] [r Hr]].
+  induction l as [|l IHl].
+  - apply plus_result_0 in Hl.
+    destruct Hl as [Hll Hlr].
+    exists 0. apply Hlr.
+Qed.
